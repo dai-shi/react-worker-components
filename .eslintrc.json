@@ -1,0 +1,47 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint",
+    "react-hooks"
+  ],
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "airbnb"
+  ],
+  "env": {
+    "browser": true
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".ts", ".tsx"]
+      }
+    }
+  },
+  "rules": {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": ["error", { "additionalHooks": "useIsomorphicLayoutEffect" }],
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "react/jsx-filename-extension": ["error", { "extensions": [".js", ".tsx"] }],
+    "react/prop-types": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "import/extensions": ["error", "never"],
+    "import/prefer-default-export": "off",
+    "import/no-unresolved": ["error", { "ignore": ["react-worker-component"] }],
+    "no-plusplus": "off",
+    "symbol-description": "off",
+    "no-restricted-globals": "off",
+    "no-use-before-define": "off",
+    "no-unused-vars": "off"
+  },
+  "overrides": [{
+    "files": ["__tests__/**/*"],
+    "env": {
+      "jest": true
+    },
+    "rules": {
+      "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
+    }
+  }]
+}
