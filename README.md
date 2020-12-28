@@ -16,7 +16,7 @@ I've been developing several libraries to interact with Web Workers.
 - [redux-in-worker](https://github.com/dai-shi/redux-in-worker)
 - [react-suspense-worker](https://github.com/dai-shi/react-suspense-worker)
 
-RSC style would be pertty useful for Web Workers.
+RSC style would be pretty useful for Web Workers.
 RWC is the same idea for Web Workers.
 It tries to reproduce the similar behavior as possible.
 Please try the examples. Feedbacks are welcome.
@@ -32,7 +32,7 @@ npm install react-worker-components
 ### `TextBox.js`
 
 This is a component that can be used in the RWC tree.
-`regsiter` is important to enable serialization.
+`register` is important to enable serialization.
 
 ```js
 import React, { useState } from 'react';
