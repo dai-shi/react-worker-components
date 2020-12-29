@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+
+## [0.0.2] - 2020-12-29
 ### Changed
 - Fix to render recursively in worker
 

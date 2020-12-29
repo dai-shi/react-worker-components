@@ -1,7 +1,7 @@
 {
   "name": "react-worker-components",
   "description": "React Worker Components simplify using Web Workers",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Daishi Kato",
   "repository": {
     "type": "git",
