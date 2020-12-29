@@ -1,18 +1,25 @@
 import { ComponentType } from 'react';
 
-const component2name = new Map<ComponentType, string>();
-const name2component = new Map<string, ComponentType>();
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnyComponent = ComponentType<any>;
+
+const component2name = new Map<AnyComponent, string>();
+const name2component = new Map<string, AnyComponent>();
 
 export const register = (
-  component: ComponentType,
+  component: AnyComponent,
   name: string,
 ) => {
   component2name.set(component, name);
   name2component.set(name, component);
 };
 
+export const isComponentRegistered = (
+  component: unknown,
+) => component2name.has(component as AnyComponent);
+
 export const getName = (
-  component: ComponentType,
+  component: AnyComponent,
 ) => {
   const name = component2name.get(component);
   if (!name) throw new Error(`component ${component} is not registered`);

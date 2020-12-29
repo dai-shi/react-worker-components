@@ -9164,6 +9164,11 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.1.tgz#5b3531bd76a645a4c9fb6e693ed36419e3301339"
   integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
 
+react-suspense-fetch@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/react-suspense-fetch/-/react-suspense-fetch-0.3.0.tgz#14a1e400b526f9f6a78f5eab0426ced4b737abbc"
+  integrity sha512-o8nTbKyEFW+zFrbSgxfF68uglZBmB+2MwQHXcRzp57Pz21mOhJMzH02WtkgmUgY8QQ28yQoEXFllTAFSLBeoaw==
+
 react@^17.0.1:
   version "17.0.1"
   resolved "https://registry.yarnpkg.com/react/-/react-17.0.1.tgz#6e0600416bd57574e3f86d92edba3d9008726127"
