@@ -26,19 +26,18 @@ const fetchUser = async (uid: number): Promise<Result> => {
 
 const store = createFetchStore(fetchUser);
 
-const Foo: React.FC = ({ children }) => (<span>{children}</span>);
-
 const Fetcher: React.FC<Props> = ({ uid, children }) => {
   const { data } = store.get(uid);
+  const postId = uid; // just to change it for demo
   return (
-    <Foo>
+    <div>
       <div>User Name: {data.first_name} {data.last_name}</div>
-      <PostData name={data.first_name} id={1} />
+      <PostData name={data.first_name} id={postId} />
       <h1>Main TextBox</h1>
       {children}
       <h1>Worker TextBox</h1>
       <TextBox />
-    </Foo>
+    </div>
   );
 };
 
