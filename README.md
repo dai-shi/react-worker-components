@@ -3,6 +3,7 @@
 [![CI](https://img.shields.io/github/workflow/status/dai-shi/react-worker-components/CI)](https://github.com/dai-shi/react-worker-components/actions?query=workflow%3ACI)
 [![npm](https://img.shields.io/npm/v/react-worker-components)](https://www.npmjs.com/package/react-worker-components)
 [![size](https://img.shields.io/bundlephobia/minzip/react-worker-components)](https://bundlephobia.com/result?p=react-worker-components)
+[![discord](https://img.shields.io/discord/627656437971288081)](https://discord.gg/MrQdmzd)
 
 React Worker Components simplify using Web Workers
 
