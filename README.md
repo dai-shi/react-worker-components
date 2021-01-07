@@ -22,7 +22,7 @@ While they provide various interfaces with good abstraction,
 RSC style would be another approach which is useful for Web Workers.
 
 RWC is a library to provide RSC-like interface for Web Workers.
-It serializes React elements keeping thier referential identities
+It serializes React elements keeping their referential identities
 as much as possible.
 If a React component is "registered", it will be referenced by string names,
 and it can be used at the both ends.
