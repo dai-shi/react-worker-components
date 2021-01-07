@@ -41,6 +41,18 @@ const walk = <T>(x: T): T => {
   return { ...x, props: { ...obj.props, children: newChildren } };
 };
 
+/**
+ * Expose a React function component from web workers.
+ *
+ * @example
+ * import { expose } from 'react-worker-components';
+ *
+ * const Foo = () => {
+ *   return <h1>Foo</h1>;
+ * };
+ *
+ * expose(Foo); // in worker file
+ */
 export const expose = <Props>(Component: React.FC<Props>) => {
   self.onmessage = async (e: MessageEvent) => {
     const { id, props } = e.data;

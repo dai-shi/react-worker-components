@@ -12,6 +12,17 @@ type Entry = {
 
 type EmptyObject = Record<string, never>;
 
+/**
+ * Wrap an exposed component in main thread
+ *
+ * This will connect the component in the worker thread.
+ * Requires Suspense.
+ *
+ * @example
+ * import { wrap } from 'react-worker-components';
+ *
+ * const Foo = wrap(() => new Worker('./Foo.worker', { type: 'module' }));
+ */
 export const wrap = <Props = EmptyObject>(createWorker: () => Worker) => {
   let worker: Worker | undefined;
   const used = new Set<symbol>();

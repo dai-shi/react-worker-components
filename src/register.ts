@@ -6,6 +6,21 @@ type AnyComponent = ComponentType<any>;
 const component2name = new Map<AnyComponent, string>();
 const name2component = new Map<string, AnyComponent>();
 
+/**
+ * Register a component with a string name
+ *
+ * This allows serializing components between main and worker threads.
+ *
+ * @example
+ * import { register } from 'react-worker-components';
+ *
+ * const Counter = () => {
+ *   const [count, setCount] = useState(0);
+ *   return <div>{count}<button onClick={() => setCount(1)}>1</button></div>;
+ * };
+ *
+ * register(Counter, 'Counter');
+ */
 export const register = (
   component: AnyComponent,
   name: string,
