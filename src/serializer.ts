@@ -27,7 +27,7 @@ const obj2idx = new Map<unknown, number>();
 const eleTypeof = '$$typeof';
 const eleSymbol = Symbol.for('react.element');
 
-const isWorker = !self.document;
+const isWorker = typeof self !== 'undefined' && !self.document;
 let index = 0;
 const nextIndex = isWorker ? (() => ++index) : (() => --index);
 
