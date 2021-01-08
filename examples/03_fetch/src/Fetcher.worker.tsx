@@ -28,7 +28,7 @@ const store = createFetchStore(fetchUser);
 
 const Fetcher: React.FC<Props> = ({ uid, children }) => {
   const { data } = store.get(uid);
-  const postId = 10 + uid; // just to change it for demo
+  const postId = 5 + uid; // just to change it for demo
   return (
     <div>
       <div>User Name: {data.first_name} {data.last_name}</div>
