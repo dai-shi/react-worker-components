@@ -24,12 +24,6 @@ const createElement = (
 const idx2obj = new Map<number, unknown>();
 const obj2idx = new Map<unknown, number>();
 
-const idx2arr = new Map<number, unknown>();
-const arr2idx = new Map<unknown, number>();
-
-const idx2ele = new Map<number, unknown>();
-const ele2idx = new Map<unknown, number>();
-
 const eleTypeof = '$$typeof';
 const eleSymbol = Symbol.for('react.element');
 
@@ -85,24 +79,24 @@ export const serialize = (x: unknown): Serialized => {
         : { c: getName((x as { type: ComponentType }).type) },
     };
     let i: number;
-    if (ele2idx.has(x)) {
-      i = ele2idx.get(x) as number;
+    if (obj2idx.has(x)) {
+      i = obj2idx.get(x) as number;
     } else {
       i = nextIndex();
-      ele2idx.set(x, i);
-      idx2ele.set(i, x);
+      obj2idx.set(x, i);
+      idx2obj.set(i, x);
     }
     return { i, e };
   }
   if (Array.isArray(x)) {
     const a = x.map(serialize);
     let i: number;
-    if (arr2idx.has(x)) {
-      i = arr2idx.get(x) as number;
+    if (obj2idx.has(x)) {
+      i = obj2idx.get(x) as number;
     } else {
       i = nextIndex();
-      arr2idx.set(x, i);
-      idx2arr.set(i, x);
+      obj2idx.set(x, i);
+      idx2obj.set(i, x);
     }
     return { i, a };
   }
@@ -126,29 +120,23 @@ export const serialize = (x: unknown): Serialized => {
 export const deserialize = (x: unknown): unknown => {
   if (!isSerialized(x)) throw new Error('not serialized type');
   if ('v' in x) return x.v;
+  if (idx2obj.has(x.i)) {
+    return idx2obj.get(x.i);
+  }
   if ('e' in x) {
-    if (idx2ele.has(x.i)) {
-      return idx2ele.get(x.i);
-    }
     const type = typeof x.e.type === 'string'
       ? x.e.type
       : getComponent(x.e.type.c);
     const ele: unknown = createElement(type, deserialize(x.e.props) as Record<string, unknown>);
-    idx2ele.set(x.i, ele);
+    idx2obj.set(x.i, ele);
     return ele;
   }
   if ('a' in x) {
-    if (idx2arr.has(x.i)) {
-      return idx2arr.get(x.i);
-    }
     const arr = x.a.map(deserialize);
-    idx2arr.set(x.i, arr);
+    idx2obj.set(x.i, arr);
     return arr;
   }
   if ('o' in x) {
-    if (idx2obj.has(x.i)) {
-      return idx2obj.get(x.i);
-    }
     const obj: Record<string, unknown> = {};
     Object.entries(x.o).forEach(([key, val]) => {
       obj[key] = deserialize(val);
