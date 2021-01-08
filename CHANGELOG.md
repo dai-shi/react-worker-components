@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+
+## [0.0.3] - 2021-01-08
 ### Changed
 - Fix to type check self
 
