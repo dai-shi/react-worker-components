@@ -3,7 +3,7 @@ import React, { PropsWithChildren } from 'react';
 import { isComponentRegistered } from './register';
 import { serialize, deserialize } from './serializer';
 
-// TODO cache render result
+// TODO cache render result (only for React.memo?)
 
 const render = <Props>(Component: React.FC<Props>, props: Props) => {
   const ele = Component(props);
@@ -28,13 +28,13 @@ const walk = <T>(x: T): T => {
   if (typeof obj.props !== 'object' || obj.props === null) return x;
   const { children } = obj.props as Record<string, unknown>;
   if (Array.isArray(children)) {
-    const newChildren: typeof children = children.map(walk);
+    const newChildren = children.map(walk);
     if (newChildren.every((child, index) => child === children[index])) {
       return x;
     }
     return { ...x, props: { ...obj.props, children: newChildren } };
   }
-  const newChildren: typeof children = walk(children);
+  const newChildren = walk(children);
   if (newChildren === children) {
     return x;
   }
@@ -45,13 +45,14 @@ const walk = <T>(x: T): T => {
  * Expose a React function component from web workers.
  *
  * @example
+ * // foo.worker.js
  * import { expose } from 'react-worker-components';
  *
  * const Foo = () => {
  *   return <h1>Foo</h1>;
  * };
  *
- * expose(Foo); // in worker file
+ * expose(Foo);
  */
 export const expose = <Props>(Component: React.FC<Props>) => {
   self.onmessage = async (e: MessageEvent) => {
