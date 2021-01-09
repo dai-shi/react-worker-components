@@ -19,17 +19,8 @@ const createElement = (
   return createElementOrig(type, props);
 };
 
-// FIXME these maps need garbege collection... how???
-
-const idx2obj = new Map<number, unknown>();
-const obj2idx = new Map<unknown, number>();
-
 const eleTypeof = '$$typeof';
 const eleSymbol = Symbol.for('react.element');
-
-const isWorker = typeof self !== 'undefined' && !self.document;
-let index = 0;
-const nextIndex = isWorker ? (() => ++index) : (() => --index);
 
 type Serialized =
   | { v: unknown }
@@ -66,6 +57,15 @@ const isSerialized = (x: unknown): x is Serialized => {
   }
   return true;
 };
+
+// FIXME these maps need garbege collection... how???
+
+const idx2obj = new Map<number, unknown>();
+const obj2idx = new Map<unknown, number>();
+
+const isWorker = typeof self !== 'undefined' && !self.document;
+let index = 0;
+const nextIndex = isWorker ? (() => ++index) : (() => --index);
 
 export const serialize = (x: unknown): Serialized => {
   if (typeof x !== 'object' || x === null) {
