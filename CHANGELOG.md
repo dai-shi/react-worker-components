@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## [0.1.0] - 2021-01-10
+### Changed
+- Fix to avoid memory leak
+
 ## [0.0.3] - 2021-01-08
 ### Changed
 - Fix to type check self

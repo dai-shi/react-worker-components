@@ -27,7 +27,7 @@ as much as possible.
 If a React component is "registered", it will be referenced by string names,
 and it can be used at the both ends.
 
-Project Status: Experimental. Ideas ans feedbacks are welcome.
+Project Status: Experimental but basic examples are working. Welcome to try realistic examples.
 
 ## Install
 
