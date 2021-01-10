@@ -69,7 +69,19 @@ const isWorker = typeof self !== 'undefined' && !self.document;
 let index = 0;
 const nextIndex = isWorker ? (() => ++index) : (() => --index);
 
+let lastGcSize = 0;
+const gc = () => {
+  if (idx2obj.size < lastGcSize + 10) return;
+  for (const [idx, ref] of idx2obj) {
+    if (!ref.deref()) {
+      idx2obj.delete(idx);
+    }
+  }
+  lastGcSize = idx2obj.size;
+};
+
 export const serialize = (x: unknown): Serialized => {
+  setTimeout(gc, 1);
   if (typeof x !== 'object' || x === null) {
     return { v: x };
   }

@@ -33,6 +33,7 @@
     "@typescript-eslint/ban-types": "off",
     "no-plusplus": "off",
     "symbol-description": "off",
+    "no-restricted-syntax": "off",
     "no-restricted-globals": "off",
     "no-use-before-define": "off",
     "no-unused-vars": "off"
