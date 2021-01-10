@@ -25,6 +25,12 @@ export const register = (
   component: AnyComponent,
   name: string,
 ) => {
+  if (component2name.has(component)) {
+    throw new Error(`component ${component} is already registered`);
+  }
+  if (name2component.has(name)) {
+    throw new Error(`component name ${name} is already registered`);
+  }
   component2name.set(component, name);
   name2component.set(name, component);
 };
