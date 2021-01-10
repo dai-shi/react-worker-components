@@ -28,6 +28,7 @@ type Serialized =
     | { e: { props: Serialized; type: string | { c: string } } }
     | { a: Serialized[] }
     | { o: Record<string, Serialized> }
+    | { u: unknown }
   );
 
 const isSerialized = (x: unknown): x is Serialized => {
@@ -53,6 +54,9 @@ const isSerialized = (x: unknown): x is Serialized => {
       if (typeof o !== 'object' || o === null) return false;
       return Object.values(o).every(isSerialized);
     }
+    if ('u' in x) {
+      return true;
+    }
     return false;
   }
   return true;
@@ -71,41 +75,6 @@ export const serialize = (x: unknown): Serialized => {
   if (typeof x !== 'object' || x === null) {
     return { v: x };
   }
-  if ((x as { [eleTypeof]: unknown })[eleTypeof] === eleSymbol) {
-    const e = {
-      props: serialize((x as { props: unknown }).props),
-      type: typeof (x as { type: unknown }).type === 'string'
-        ? (x as { type: string }).type
-        : { c: getName((x as { type: ComponentType }).type) },
-    };
-    let i: number;
-    if (obj2idx.has(x)) {
-      i = obj2idx.get(x) as number;
-    } else {
-      i = nextIndex();
-      obj2idx.set(x, i);
-      idx2obj.set(i, x);
-    }
-    return { i, e };
-  }
-  if (Array.isArray(x)) {
-    const a = x.map(serialize);
-    let i: number;
-    if (obj2idx.has(x)) {
-      i = obj2idx.get(x) as number;
-    } else {
-      i = nextIndex();
-      obj2idx.set(x, i);
-      idx2obj.set(i, x);
-    }
-    return { i, a };
-  }
-  // typeof x === 'object'
-  const o: Record<string, Serialized> = {};
-  Object.entries(x).forEach(([key, val]) => {
-    if (typeof key === 'symbol') throw new Error('symbol keys are not supported');
-    o[key] = serialize(val);
-  });
   let i: number;
   if (obj2idx.has(x)) {
     i = obj2idx.get(x) as number;
@@ -114,7 +83,28 @@ export const serialize = (x: unknown): Serialized => {
     obj2idx.set(x, i);
     idx2obj.set(i, x);
   }
-  return { i, o };
+  if ((x as { [eleTypeof]: unknown })[eleTypeof] === eleSymbol) {
+    const e = {
+      props: serialize((x as { props: unknown }).props),
+      type: typeof (x as { type: unknown }).type === 'string'
+        ? (x as { type: string }).type
+        : { c: getName((x as { type: ComponentType }).type) },
+    };
+    return { i, e };
+  }
+  if (Array.isArray(x)) {
+    const a = x.map(serialize);
+    return { i, a };
+  }
+  if (Object.getPrototypeOf(x) === Object.prototype) {
+    const o: Record<string, Serialized> = {};
+    Object.entries(x).forEach(([key, val]) => {
+      if (typeof key === 'symbol') throw new Error('symbol keys are not supported');
+      o[key] = serialize(val);
+    });
+    return { i, o };
+  }
+  return { i, u: x };
 };
 
 export const deserialize = (x: unknown): unknown => {
@@ -143,6 +133,10 @@ export const deserialize = (x: unknown): unknown => {
     });
     idx2obj.set(x.i, obj);
     return obj;
+  }
+  if ('u' in x) {
+    idx2obj.set(x.i, x.u);
+    return x.u;
   }
   throw new Error('should not reach here');
 };
