@@ -28,7 +28,7 @@ type Serialized =
     | { e: { props: Serialized; type: string | { c: string } } }
     | { a: Serialized[] }
     | { o: Record<string, Serialized> }
-    | { u: unknown }
+    | { u: object }
   );
 
 const isSerialized = (x: unknown): x is Serialized => {
@@ -54,7 +54,7 @@ const isSerialized = (x: unknown): x is Serialized => {
       if (typeof o !== 'object' || o === null) return false;
       return Object.values(o).every(isSerialized);
     }
-    if ('u' in x) {
+    if (typeof (x as { u: unknown }).u === 'object') {
       return true;
     }
     return false;
@@ -62,10 +62,8 @@ const isSerialized = (x: unknown): x is Serialized => {
   return true;
 };
 
-// FIXME these maps need garbege collection... how???
-
-const idx2obj = new Map<number, unknown>();
-const obj2idx = new Map<unknown, number>();
+const idx2obj = new Map<number, WeakRef<object>>();
+const obj2idx = new WeakMap<object, number>();
 
 const isWorker = typeof self !== 'undefined' && !self.document;
 let index = 0;
@@ -81,7 +79,7 @@ export const serialize = (x: unknown): Serialized => {
   } else {
     i = nextIndex();
     obj2idx.set(x, i);
-    idx2obj.set(i, x);
+    idx2obj.set(i, new WeakRef(x));
   }
   if ((x as { [eleTypeof]: unknown })[eleTypeof] === eleSymbol) {
     const e = {
@@ -111,19 +109,22 @@ export const deserialize = (x: unknown): unknown => {
   if (!isSerialized(x)) throw new Error('not serialized type');
   if ('v' in x) return x.v;
   if (idx2obj.has(x.i)) {
-    return idx2obj.get(x.i);
+    const obj = idx2obj.get(x.i)?.deref();
+    if (obj) {
+      return obj;
+    }
   }
   if ('e' in x) {
     const type = typeof x.e.type === 'string'
       ? x.e.type
       : getComponent(x.e.type.c);
-    const ele: unknown = createElement(type, deserialize(x.e.props) as Record<string, unknown>);
-    idx2obj.set(x.i, ele);
+    const ele: object = createElement(type, deserialize(x.e.props) as Record<string, unknown>);
+    idx2obj.set(x.i, new WeakRef(ele));
     return ele;
   }
   if ('a' in x) {
     const arr = x.a.map(deserialize);
-    idx2obj.set(x.i, arr);
+    idx2obj.set(x.i, new WeakRef(arr));
     return arr;
   }
   if ('o' in x) {
@@ -131,11 +132,11 @@ export const deserialize = (x: unknown): unknown => {
     Object.entries(x.o).forEach(([key, val]) => {
       obj[key] = deserialize(val);
     });
-    idx2obj.set(x.i, obj);
+    idx2obj.set(x.i, new WeakRef(obj));
     return obj;
   }
   if ('u' in x) {
-    idx2obj.set(x.i, x.u);
+    idx2obj.set(x.i, new WeakRef(x.u));
     return x.u;
   }
   throw new Error('should not reach here');

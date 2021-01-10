@@ -9,7 +9,8 @@
     "airbnb"
   ],
   "env": {
-    "browser": true
+    "browser": true,
+    "es2021": true
   },
   "settings": {
     "import/resolver": {
@@ -29,6 +30,7 @@
     "import/extensions": ["error", "never"],
     "import/prefer-default-export": "off",
     "import/no-unresolved": ["error", { "ignore": ["react-worker-component"] }],
+    "@typescript-eslint/ban-types": "off",
     "no-plusplus": "off",
     "symbol-description": "off",
     "no-restricted-globals": "off",
