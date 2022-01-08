@@ -37,6 +37,7 @@
     "no-restricted-globals": "off",
     "no-use-before-define": "off",
     "no-unused-vars": "off",
+    "no-param-reassign": "off",
     "react/function-component-definition": ["error", { "namedComponents": "arrow-function" }]
   },
   "overrides": [{

@@ -54,9 +54,12 @@ const walk = <T>(x: T): T => {
  *
  * expose(Foo);
  */
-export const expose = <Props>(Component: React.FC<Props>) => {
-  self.onmessage = async (e: MessageEvent) => {
-    const { id, props } = e.data;
+export const expose = <Props>(Component: React.FC<Props>, key?: string) => {
+  self.addEventListener('message', (e) => {
+    const { key: dataKey, id, props } = e.data;
+    if (dataKey !== key) {
+      return;
+    }
     if (!id || !props) {
       throw new Error('no id or props found');
     }
@@ -74,5 +77,5 @@ export const expose = <Props>(Component: React.FC<Props>) => {
       }
     };
     thunk();
-  };
+  });
 };

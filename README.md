@@ -132,6 +132,7 @@ Expose a React function component from web workers.
 #### Parameters
 
 *   `Component` **React.FC\<Props>** 
+*   `key` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
 
 #### Examples
 
@@ -177,9 +178,12 @@ Wrap an exposed component in main thread
 This will connect the component in the worker thread.
 Requires Suspense.
 
+It will create a dedicated worker for each createWorker function reference.
+
 #### Parameters
 
-*   `createWorker` **function (): [Worker](https://developer.mozilla.org/docs/Web/JavaScript)** 
+*   `createWorker` **any** 
+*   `key` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
 
 #### Examples
 

@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+### Added
+- Support multiple components in a single worker
 ### Changed
 - Fix package.json properly for ESM
 
