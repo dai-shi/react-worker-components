@@ -6,7 +6,7 @@ import { TextBox } from './TextBox';
 
 import { Props as HelloProps } from './Hello.worker';
 
-const Hello = wrap<HelloProps>(() => new Worker('./Hello.worker', { type: 'module' }));
+const Hello = wrap<HelloProps>(() => new Worker(new URL('./Hello.worker', import.meta.url)));
 
 const Counter: React.FC = () => {
   const [count, setCount] = useState(1);

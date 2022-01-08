@@ -5,7 +5,7 @@
     "lib": ["esnext", "dom"],
     "downlevelIteration": true,
     "esModuleInterop": true,
-    "module": "es2015",
+    "module": "esnext",
     "moduleResolution": "node",
     "jsx": "react",
     "allowJs": true,

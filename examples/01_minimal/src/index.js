@@ -5,7 +5,7 @@ import { wrap } from 'react-worker-components';
 
 import { TextBox } from './TextBox';
 
-const Hello = wrap(() => new Worker('./Hello.worker', { type: 'module' }));
+const Hello = wrap(() => new Worker(new URL('./Hello.worker', import.meta.url)));
 
 const App = () => {
   const [count, setCount] = useState(1);

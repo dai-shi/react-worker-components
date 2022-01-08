@@ -32,7 +32,7 @@
     "eslint": "eslint --ext .js,.ts,.tsx --ignore-pattern dist .",
     "jest": "jest --preset ts-jest/presets/js-with-ts",
     "tsc-test": "tsc --project . --noEmit",
-    "apidoc": "documentation readme --section API --markdown-toc false --parse-extension ts src/*.ts",
+    "apidoc": "documentation readme --section API --markdown-toc false --parse-extension ts src/expose.ts src/wrap.ts",
     "examples:01_minimal": "DIR=01_minimal EXT=js webpack-dev-server",
     "examples:02_typescript": "DIR=02_typescript webpack-dev-server",
     "examples:03_fetch": "DIR=03_fetch webpack-dev-server"
@@ -72,8 +72,7 @@
     "typescript": "^4.5.4",
     "webpack": "^5.65.0",
     "webpack-cli": "^4.9.1",
-    "webpack-dev-server": "^4.7.2",
-    "worker-plugin": "^5.0.1"
+    "webpack-dev-server": "^4.7.2"
   },
   "peerDependencies": {
     "react": ">=16.8.0"

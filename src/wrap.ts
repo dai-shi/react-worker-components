@@ -21,7 +21,7 @@ type EmptyObject = Record<string, never>;
  * @example
  * import { wrap } from 'react-worker-components';
  *
- * const Foo = wrap(() => new Worker('./Foo.worker', { type: 'module' }));
+ * const Foo = wrap(() => new Worker(new URL('./Foo.worker', import.meta.url)));
  */
 export const wrap = <Props = EmptyObject>(createWorker: () => Worker) => {
   let worker: Worker | undefined;

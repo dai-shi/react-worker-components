@@ -6,7 +6,7 @@ import { TextBox } from './TextBox';
 
 import { Props as FetcherProps } from './Fetcher.worker';
 
-const Fetcher = wrap<FetcherProps>(() => new Worker('./Fetcher.worker', { type: 'module' }));
+const Fetcher = wrap<FetcherProps>(() => new Worker(new URL('./Fetcher.worker', import.meta.url)));
 
 const Main: React.FC = () => {
   const [uid, setUid] = useState(1);

@@ -102,7 +102,7 @@ import { wrap } from 'react-worker-components';
 
 import { TextBox } from './TextBox';
 
-const Hello = wrap(() => new Worker('./Hello.worker', { type: 'module' }));
+const Hello = wrap(() => new Worker(new URL('./Hello.worker', import.meta.url)));
 
 export const App = () => {
   const [count, setCount] = useState(1);
@@ -185,7 +185,7 @@ Requires Suspense.
 ```javascript
 import { wrap } from 'react-worker-components';
 
-const Foo = wrap(() => new Worker('./Foo.worker', { type: 'module' }));
+const Foo = wrap(() => new Worker(new URL('./Foo.worker', import.meta.url)));
 ```
 
 ## Examples
