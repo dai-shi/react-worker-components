@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+### Changed
+- Fix package.json properly for ESM
 
 ## [0.1.0] - 2021-01-10
 ### Changed
