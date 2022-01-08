@@ -14,9 +14,9 @@ This is an experimental project inspired by
 
 I've been developing several libraries to interact with Web Workers.
 
--   [react-hooks-worker](https://github.com/dai-shi/react-hooks-worker)
--   [redux-in-worker](https://github.com/dai-shi/redux-in-worker)
--   [react-suspense-worker](https://github.com/dai-shi/react-suspense-worker)
+*   [react-hooks-worker](https://github.com/dai-shi/react-hooks-worker)
+*   [redux-in-worker](https://github.com/dai-shi/redux-in-worker)
+*   [react-suspense-worker](https://github.com/dai-shi/react-suspense-worker)
 
 While they provide various interfaces with good abstraction,
 RSC style would be another approach which is useful for Web Workers.
@@ -131,18 +131,19 @@ Expose a React function component from web workers.
 
 #### Parameters
 
--   `Component` **React.FC&lt;Props>** 
+*   `Component` **React.FC\<Props>** 
 
 #### Examples
 
 ```javascript
+// foo.worker.js
 import { expose } from 'react-worker-components';
 
 const Foo = () => {
   return <h1>Foo</h1>;
 };
 
-expose(Foo); // in worker file
+expose(Foo);
 ```
 
 ### register
@@ -153,8 +154,8 @@ This allows serializing components between main and worker threads.
 
 #### Parameters
 
--   `component` **AnyComponent** 
--   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+*   `component` **AnyComponent** 
+*   `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 #### Examples
 
@@ -178,7 +179,7 @@ Requires Suspense.
 
 #### Parameters
 
--   `createWorker` **function (): [Worker](https://developer.mozilla.org/docs/Web/JavaScript)** 
+*   `createWorker` **function (): [Worker](https://developer.mozilla.org/docs/Web/JavaScript)** 
 
 #### Examples
 
