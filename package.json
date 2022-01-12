@@ -35,7 +35,8 @@
     "apidoc": "documentation readme --section API --markdown-toc false --parse-extension ts --require-extension ts src/expose.ts src/wrap.ts",
     "examples:01_minimal": "DIR=01_minimal EXT=js webpack-dev-server",
     "examples:02_typescript": "DIR=02_typescript webpack-dev-server",
-    "examples:03_fetch": "DIR=03_fetch webpack-dev-server"
+    "examples:03_fetch": "DIR=03_fetch webpack-dev-server",
+    "examples:04_multicomps": "DIR=04_multicomps webpack-dev-server"
   },
   "keywords": [
     "react",
