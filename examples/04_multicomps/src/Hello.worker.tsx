@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
-import { expose } from "react-worker-components";
+import { expose } from 'react-worker-components';
 
-import { TextBox } from "./TextBox";
-import { Counter } from "./Counter";
+import { TextBox } from './TextBox';
+import { Counter } from './Counter';
 
 const fib = (i: number): number => (i <= 1 ? i : fib(i - 1) + fib(i - 2));
 
@@ -22,15 +22,13 @@ const Hello: React.FC<Props> = ({ count }) => {
   );
 };
 
-expose(Hello, "Hello");
+expose(Hello, 'Hello');
 
-const WorkerCounter: React.FC = () => {
-  return (
-    <div>
-      <h1>Worker Counter</h1>
-      <Counter />
-    </div>
-  );
-};
+const WorkerCounter: React.FC = () => (
+  <div>
+    <h1>Worker Counter</h1>
+    <Counter />
+  </div>
+);
 
-expose(WorkerCounter, "WorkerCounter");
+expose(WorkerCounter, 'WorkerCounter');
