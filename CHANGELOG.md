@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+
+## [0.2.0] - 2022-01-20
 ### Added
 - Support multiple components in a single worker
 ### Changed
