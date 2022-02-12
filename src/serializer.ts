@@ -11,7 +11,7 @@ const createElement = (
   { children, ...props }: Record<string, unknown>,
 ) => {
   if (Array.isArray(children)) {
-    return createElementOrig(type, props, ...(children as ReactNode[]));
+    return createElementOrig(type, props, ...children as ReactNode[]);
   }
   if (children) {
     return createElementOrig(type, props, children as ReactNode);
@@ -24,12 +24,12 @@ const eleSymbol = Symbol.for('react.element');
 
 type Serialized =
   | { v: unknown }
-  | ({ i: number } & (
-      | { e: { props: Serialized; type: string | { c: string } } }
-      | { a: Serialized[] }
-      | { o: Record<string, Serialized> }
-      | { u: object }
-    ));
+  | { i: number } & (
+    | { e: { props: Serialized; type: string | { c: string } } }
+    | { a: Serialized[] }
+    | { o: Record<string, Serialized> }
+    | { u: object }
+  );
 
 const isSerialized = (x: unknown): x is Serialized => {
   if (typeof process === 'object' && process.env.NODE_ENV !== 'production') {
@@ -67,7 +67,7 @@ const obj2idx = new WeakMap<object, number>();
 
 const isWorker = typeof self !== 'undefined' && !self.document;
 let index = 0;
-const nextIndex = isWorker ? () => ++index : () => --index;
+const nextIndex = isWorker ? (() => ++index) : (() => --index);
 
 let lastGcSize = 0;
 const gc = () => {
@@ -96,10 +96,9 @@ export const serialize = (x: unknown): Serialized => {
   if ((x as { [eleTypeof]: unknown })[eleTypeof] === eleSymbol) {
     const e = {
       props: serialize((x as { props: unknown }).props),
-      type:
-        typeof (x as { type: unknown }).type === 'string'
-          ? (x as { type: string }).type
-          : { c: getName((x as { type: ComponentType }).type) },
+      type: typeof (x as { type: unknown }).type === 'string'
+        ? (x as { type: string }).type
+        : { c: getName((x as { type: ComponentType }).type) },
     };
     return { i, e };
   }
@@ -123,7 +122,6 @@ let currentComp: string | undefined;
 export const deserialize = (x: unknown, key?: string): unknown => {
   if (currentComp !== key) idx2obj.clear();
   currentComp = key;
-
   if (!isSerialized(x)) throw new Error('not serialized type');
   if ('v' in x) return x.v;
   if (idx2obj.has(x.i)) {
@@ -133,11 +131,10 @@ export const deserialize = (x: unknown, key?: string): unknown => {
     }
   }
   if ('e' in x) {
-    const type = typeof x.e.type === 'string' ? x.e.type : getComponent(x.e.type.c);
-    const ele: object = createElement(
-      type,
-      deserialize(x.e.props, key) as Record<string, unknown>,
-    );
+    const type = typeof x.e.type === 'string'
+      ? x.e.type
+      : getComponent(x.e.type.c);
+    const ele: object = createElement(type, deserialize(x.e.props, key) as Record<string, unknown>);
     idx2obj.set(x.i, new WeakRef(ele));
     return ele;
   }
@@ -148,8 +145,8 @@ export const deserialize = (x: unknown, key?: string): unknown => {
   }
   if ('o' in x) {
     const obj: Record<string, unknown> = {};
-    Object.entries(x.o).forEach(([key, val]) => {
-      obj[key] = deserialize(val, key);
+    Object.entries(x.o).forEach(([k, v]) => {
+      obj[k] = deserialize(v, key);
     });
     idx2obj.set(x.i, new WeakRef(obj));
     return obj;

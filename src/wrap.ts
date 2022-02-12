@@ -52,7 +52,7 @@ export const wrap = <Props = EmptyObject>(
           if (err) {
             entry.err = err;
           } else {
-            entry.result = deserialize(ele);
+            entry.result = deserialize(ele, key);
           }
           entry.resolve?.();
         }
