@@ -63,7 +63,7 @@ export const expose = <Props>(Component: React.FC<Props>, key?: string) => {
     if (!id || !props) {
       throw new Error('no id or props found');
     }
-    const deserialized = deserialize(props) as PropsWithChildren<Props>; // unsafe type assertion
+    const deserialized = deserialize(props, key) as PropsWithChildren<Props>; // unsafe type assertion
     const thunk = () => {
       try {
         const ele = render(Component, deserialized);
